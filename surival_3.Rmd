@@ -1,0 +1,40 @@
+---
+title: "Survival Assignment III"
+author: "Kelvin Nyongesa."
+date: "2023-06-27"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Fitting a Cox regression model
+```{r}
+# Load the survival library if not already installed
+
+library(survival)
+
+# Load your dataset 
+data <- kidney
+
+# Fit the Cox regression model
+cox_model <- coxph(Surv(time, status) ~ age + sex + disease + frail, data = data)
+
+# Print the summary of the model
+summary(cox_model)
+```
+
+# Conclusion
+The coefficient for age is 0.007714, and the hazard ratio is 1.007744. However, the p-value (0.517055) suggests that age is not statistically significant in predicting the hazard of the event. The 95% confidence interval for the hazard ratio includes 1, indicating that the effect of age on the hazard of the event is not statistically significant.
+
+The coefficient for sex is -2.099844, indicating that being male is associated with a lower hazard of the event. The hazard ratio of 0.122475 suggests that males have approximately an 88% lower hazard compared to females. This effect is statistically significant, as the p-value is highly significant (8.90e-08).
+
+The coefficients for different disease categories (GN, AN, PKD) indicate the association between each disease category and the hazard of the event. However, none of the disease categories show statistically significant associations with the hazard of the event. The p-values for diseaseGN (0.764471), diseaseAN (0.152442), and diseasePKD (0.000831) suggest no significant associations. It is important to note that the diseasePKD category has a hazard ratio of 0.1143, indicating a substantially lower hazard compared to the reference category.
+
+The coefficient for frailty is 1.791873, suggesting that being frail is associated with a higher hazard of the event. The hazard ratio of 6.000682 indicates that frail individuals have approximately a 6-fold higher hazard compared to non-frail individuals. This effect is highly statistically significant, with a very low p-value (3.53e-12).
+
+Hence, being male and frail are both strongly associated with a higher hazard of the event. Age and the specific disease categories (GN, AN, PKD) do not appear to have significant associations with the hazard of the event in this analysis.
